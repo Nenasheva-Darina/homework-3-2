@@ -10,7 +10,8 @@ yargs(process.argv.slice(2))
 			title: {
 				type: 'string',
 				describe: 'Note title',
-				demandOption: true
+				demandOption: true,
+				alias: 't'
 			}
 
 		},
@@ -28,6 +29,13 @@ yargs(process.argv.slice(2))
     .command({
         command: 'remove',
         describe: 'Remove note by id',
+		builder: {
+			id: {
+				type: 'string',
+				describe: 'Note uniq id',
+				demandOption: true,
+			}
+		},
         async handler({id}) {
 			removeNote(id)
         }

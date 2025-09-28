@@ -39,8 +39,7 @@ async function printNotes() {
 }
 
 async function removeNote(id) {
-	console.log(chalk.bgBlue('Remove note by id:'));
-	console.log(id);
+	console.log(chalk.bgBlue(`Remove note by id: ${id}`));
 	const notes = await getNotes()
 
 	if (notes.find(note => note.id == id)) {
