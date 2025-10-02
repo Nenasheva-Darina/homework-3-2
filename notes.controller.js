@@ -10,7 +10,7 @@ async  function addNote(title) {
 	// const notes = Buffer.from(buffer).toString('utf-8')
 	
 	const notes = await getNotes()
-
+console.log(title);
 	const note = {
 		title,
 		id: Date.now().toString()
@@ -28,16 +28,6 @@ async function getNotes() {
 	return Array.isArray(JSON.parse(notes)) ? JSON.parse(notes) : []
 }
 
-async function printNotes() {
-	const notes = await getNotes()
-	console.log(chalk.bgBlue('Here is the list of notes:'));
-	
-	notes.forEach(note => {
-		console.log(chalk.yellowBright(note.id), chalk.blue(note.title));
-	});
-	
-}
-
 async function removeNote(id) {
 	console.log(chalk.bgBlue(`Remove note by id: ${id}`));
 	const notes = await getNotes()
@@ -49,13 +39,30 @@ async function removeNote(id) {
 	
 		console.log(`Заметка с id: ${id} удалена`);
 	} else {
-		console.log(`Заметка с id: ${id} не найдена`);}
-	
-	
+		console.log(`Заметка с id: ${id} не найдена`);}	
 }
 
+async function editNote(id, title) {
+	const notes = await getNotes()
+	console.log(notes);
 
+	let note = notes.find(note => note.id == id)	
+	console.log(note);
+
+	if (notes.find(note => note.id == id)) {
+		notes.map((note) => {
+			if(note.id == id) {
+				return note.title = title
+			}
+		})
+		await fs.writeFile(notesPath, JSON.stringify(notes))
+		console.log(`Заметка с id: ${id} отредактированна`);
+		
+	} else {
+		console.log(`Заметка с id: ${id} не найдена`);
+	}	
+}
 
 module.exports = {
-	addNote, printNotes, removeNote
+	addNote, getNotes, removeNote, editNote
 }
